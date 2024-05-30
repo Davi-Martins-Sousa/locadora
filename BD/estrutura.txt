@@ -1,0 +1,128 @@
+create database locadora;
+
+use locadora;
+
+CREATE TABLE proprietario (
+    CPF VARCHAR(14)PRIMARY KEY,
+    nome VARCHAR(20),
+    telefone VARCHAR(20)
+);
+
+INSERT proprietario VALUES
+('00123','Tony Stark','58900'),
+('00333','Bruce Banner','58922');
+
+CREATE TABLE locadora (
+    CNPJ VARCHAR(14)PRIMARY KEY,
+    endereco VARCHAR(50)
+);
+
+INSERT locadora VALUES
+('00143','221b, Baker St, London'),
+('00155','1090, 5th Avenenue, NYC');
+
+CREATE TABLE filme (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(50),
+    ano INT,<li class="nav-item"><a href="proprietario.php" class="nav-link" aria-current="page">Proprietarios</a></li>
+    classificacao INT,
+    preco_por_Dia DOUBLE
+);
+
+INSERT INTO filme (nome, ano, classificacao, preco_por_Dia) VALUES
+('Psicose', 1961, 16, 1.5),
+('Se Beber, não case', 2009, 12, 1.5),
+('Star wars: Empire Strikes Back', 1980, 10, 1.5),
+('Uma mente Brilhante', 2001, 12, 2),
+('Interestelar', 2014, 12, 2);
+
+CREATE TABLE VHS (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    disponibilidade BOOLEAN,
+    tamanho DOUBLE,
+    id_filme INT,
+    FOREIGN KEY (id_filme) REFERENCES filme(id)
+);
+
+INSERT INTO VHS (disponibilidade, tamanho, id_filme) VALUES
+(false, 180, 1),
+(true, 180, 1),
+(false, 180, 2),
+(true, 180, 3),
+(true, 180, 4),
+(true, 180, 4),
+(false, 180, 5);
+
+CREATE TABLE cliente (
+    CPF VARCHAR(14)PRIMARY KEY,
+    nome VARCHAR(20),
+    telefone VARCHAR(20)
+);
+
+INSERT cliente VALUES
+('98500','Magali','35678892'),
+('90178','Cascão','35222200'),
+('90136','Cebolinha','35777654'),
+('81283','Mônica','35210907');
+
+CREATE TABLE possui (
+    CPF_proprietario VARCHAR(14),
+    CPNJ_locadora VARCHAR(14),
+    propiedade DOUBLE,
+    FOREIGN KEY (CPF_proprietario) REFERENCES proprietario(CPF),
+    FOREIGN KEY (CPNJ_locadora) REFERENCES locadora(CNPJ)
+);
+
+INSERT possui VALUES
+('00123','00143',1),
+('00123','00155',0.2),
+('00333','00155',0.8);
+
+CREATE TABLE tem (
+    CPNJ_locadora VARCHAR(14),
+    id_filme int,
+    FOREIGN KEY (CPNJ_locadora) REFERENCES locadora(CNPJ),
+    FOREIGN KEY (id_filme) REFERENCES filme(id)
+);
+
+INSERT tem VALUES
+('00143',1),
+('00143',2),
+('00143',4),
+('00155',1),
+('00155',3),
+('00155',4),
+('00155',5);
+
+CREATE TABLE reserva (
+    CPF_Cliente VARCHAR(14),
+    id_VHS INT,
+    data_inicio DATE,
+    data_fim DATE,
+    FOREIGN KEY (CPF_Cliente) REFERENCES cliente(CPF),
+    FOREIGN KEY (id_VHS) REFERENCES VHS(id)
+);
+
+INSERT INTO reserva VALUES
+('98500', 2, '2024-06-01', '2024-06-07'),
+('90178', 3, '2024-06-05', '2024-06-12'),
+('81283', 7, '2024-06-10', '2024-06-15');
+
+CREATE TABLE aluga (
+    CPF_Cliente VARCHAR(14),
+    id_VHS INT,
+    data_inicio DATE,
+    data_fim DATE,
+    data_entrega DATE,
+    multa BOOLEAN,
+    reservado_previamente BOOLEAN,
+    FOREIGN KEY (CPF_Cliente) REFERENCES cliente(CPF),
+    FOREIGN KEY (id_VHS) REFERENCES VHS(id)
+);
+
+INSERT INTO aluga VALUES
+('98500', 2,'2024-06-01', '2024-06-07', '2024-06-09', true, true),
+('90178', 3,'2024-06-05', '2024-06-12', '2024-06-12', false, true),
+('90178', 6,'2024-06-05', '2024-06-12', '2024-06-12', false, false);
+
+SELECT * FROM aluga;
