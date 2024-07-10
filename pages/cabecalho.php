@@ -60,9 +60,14 @@
                     if (session_status() === PHP_SESSION_ACTIVE) {
                         // Verifica se as variáveis da sessão específicas existem
                         if (isset($_SESSION['usuario_id']) && isset($_SESSION['usuario_nome'])) {
-                        echo '<li class="nav-item"><a href="filmes.php" class="nav-link" aria-current="page">Filmes</a></li>';
-                        echo '<li class="nav-item"><a href="vhs.php" class="nav-link" aria-current="page">VHS</a></li>';         
-                        echo '<li class="nav-item"><a href="clientes.php" class="nav-link" aria-current="page">Clientes</a></li>';                                            
+                            if($_SESSION['usuario_nome'] == 'admin'){
+                                echo '<li class="nav-item"><a href="proprietario.php" class="nav-link" aria-current="page">Proprietario</a></li>';
+                                echo '<li class="nav-item"><a href="locadora.php" class="nav-link" aria-current="page">Locadora</a></li>';          
+                            }else{
+                                echo '<li class="nav-item"><a href="filmes.php" class="nav-link" aria-current="page">Filmes</a></li>';
+                                echo '<li class="nav-item"><a href="vhs.php" class="nav-link" aria-current="page">VHS</a></li>';         
+                                echo '<li class="nav-item"><a href="clientes.php" class="nav-link" aria-current="page">Clientes</a></li>'; 
+                            }                                           
                         }else {
                             echo '<li class="nav-item"><a href="Login.php" class="nav-link">Login</a></li>';
                         }
