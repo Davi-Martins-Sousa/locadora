@@ -54,11 +54,20 @@
         <div class="d-flex justify-content-center">
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item"><a href="index.php" class="nav-link" aria-current="page">Index</a></li>
-                <li class="nav-item"><a href="proprietarios.php" class="nav-link" aria-current="page">Proprietarios</a></li>
-                <li class="nav-item"><a href="locadoras.php" class="nav-link" aria-current="page">Locadoras</a></li>
-                <li class="nav-item"><a href="filmes.php" class="nav-link" aria-current="page">Filmes</a></li>
-                <li class="nav-item"><a href="vhs.php" class="nav-link" aria-current="page">VHS's</a></li>
-                <li class="nav-item"><a href="clientes.php" class="nav-link" aria-current="page">Clientes</a></li>
+                <?php
+                    session_start(); // Inicia a sessão ou resume a sessão existente
+                    // Verifica se a sessão está ativa
+                    if (session_status() === PHP_SESSION_ACTIVE) {
+                        // Verifica se as variáveis da sessão específicas existem
+                        if (isset($_SESSION['usuario_id']) && isset($_SESSION['usuario_nome'])) {
+                        echo '<li class="nav-item"><a href="filmes.php" class="nav-link" aria-current="page">Filmes</a></li>';
+                        echo '<li class="nav-item"><a href="vhs.php" class="nav-link" aria-current="page">VHS</a></li>';         
+                        echo '<li class="nav-item"><a href="clientes.php" class="nav-link" aria-current="page">Clientes</a></li>';                                            
+                        }else {
+                            echo '<li class="nav-item"><a href="Login.php" class="nav-link">Login</a></li>';
+                        }
+                    }
+                ?>
             </ul>
         </div>
     
