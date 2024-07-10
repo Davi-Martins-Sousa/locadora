@@ -10,21 +10,26 @@ CREATE TABLE proprietario (
 
 INSERT proprietario VALUES
 ('00123','Tony Stark','58900'),
-('00333','Bruce Banner','58922');
+('00333','Bruce Banner','58922'),
+('00111','Rick Sanchez','00000').
+;
+
 
 CREATE TABLE locadora (
     CNPJ VARCHAR(14)PRIMARY KEY,
-    endereco VARCHAR(50)
+    endereco VARCHAR(50),
+    senha VARCHAR(50)
 );
 
 INSERT locadora VALUES
-('00143','221b, Baker St, London'),
-('00155','1090, 5th Avenenue, NYC');
+('00143','221b, Baker St, London','111'),
+('00155','1090, 5th Avenenue, NYC','222');
+('00222','167, 43rd Avenue NE,  Seattle','333');
 
 CREATE TABLE filme (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(50),
-    ano INT,<li class="nav-item"><a href="proprietario.php" class="nav-link" aria-current="page">Proprietarios</a></li>
+    ano INT,
     classificacao INT,
     preco_por_Dia DOUBLE
 );
@@ -76,7 +81,8 @@ CREATE TABLE possui (
 INSERT possui VALUES
 ('00123','00143',1),
 ('00123','00155',0.2),
-('00333','00155',0.8);
+('00333','00155',0.8),
+('00111','00222',1);
 
 CREATE TABLE tem (
     CPNJ_locadora VARCHAR(14),
