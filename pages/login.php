@@ -1,5 +1,5 @@
 <?php
-include("Cabecalho.php");
+include("cabecalho.php");
 include("../BD/conecta.php");
 include("../dao/locadorasDao.php");
 ?>
@@ -26,7 +26,6 @@ include("../dao/locadorasDao.php");
         </div>
         <div class="col-12">
             <input class="btn btn-primary" type="submit" value="Entrar" name="submit" />
-            <a class="btn btn-primary" href="criarUsuario.php">Criar usuário</a>
             <div class="col-12">
 
                 <?php
