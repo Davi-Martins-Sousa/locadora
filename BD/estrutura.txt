@@ -130,4 +130,56 @@ INSERT INTO aluga VALUES
 ('90178', 3,'2024-06-05', '2024-06-12', '2024-06-12', false, true),
 ('90178', 6,'2024-06-05', '2024-06-12', '2024-06-12', false, false);
 
-SELECT * FROM aluga;
+-- Consulta utilizando JOIN para listar os filmes alugados por cada cliente
+SELECT c.nome AS cliente, f.nome AS filme, a.data_inicio, a.data_fim, a.data_entrega
+FROM aluga a
+JOIN cliente c ON a.CPF_Cliente = c.CPF
+JOIN VHS v ON a.id_VHS = v.id
+JOIN filme f ON v.id_filme = f.id;
+
+-- Consulta para listar todos os filmes e suas respectivas locadoras
+SELECT f.nome AS filme, l.endereco AS locadora
+FROM filme f
+JOIN tem t ON f.id = t.id_filme
+JOIN locadora l ON t.CPNJ_locadora = l.CNPJ;
+
+-- Consulta para listar todos os clientes que têm reservas ativas
+SELECT c.nome AS cliente, f.nome AS filme, r.data_inicio, r.data_fim
+FROM reserva r
+JOIN cliente c ON r.CPF_Cliente = c.CPF
+JOIN VHS v ON r.id_VHS = v.id
+JOIN filme f ON v.id_filme = f.id
+WHERE r.data_fim >= CURDATE();
+
+
+-- Consulta  para listar os proprietários que possuem locadoras com filmes disponíveis para aluguel
+SELECT p.nome AS proprietario, l.endereco AS locadora, f.nome AS filme
+FROM proprietario p
+JOIN possui po ON p.CPF = po.CPF_proprietario
+JOIN locadora l ON po.CPNJ_locadora = l.CNPJ
+JOIN tem t ON l.CNPJ = t.CPNJ_locadora
+JOIN filme f ON t.id_filme = f.id
+JOIN VHS v ON f.id = v.id_filme
+WHERE v.disponibilidade = true;
+
+
+-- Criação de uma Stored Procedure para inserir um novo filme e atualizar a tabela tem com a locadora correspondente
+DELIMITER //
+
+CREATE PROCEDURE adicionar_filme(
+    IN p_nome VARCHAR(50),
+    IN p_ano INT,
+    IN p_classificacao INT,
+    IN p_preco_por_dia DOUBLE,
+    IN p_cnpj_locadora VARCHAR(14)
+)
+BEGIN
+    DECLARE p_id_filme INT;
+    INSERT INTO filme (nome, ano, classificacao, preco_por_Dia) VALUES (p_nome, p_ano, p_classificacao, p_preco_por_dia);
+    SET p_id_filme = LAST_INSERT_ID();
+    INSERT INTO tem (CPNJ_locadora, id_filme) VALUES (p_cnpj_locadora, p_id_filme);
+END //
+
+DELIMITER ;
+
+
