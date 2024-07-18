@@ -61,8 +61,8 @@
                         // Verifica se as variáveis da sessão específicas existem
                         if (isset($_SESSION['locadora_CNPJ']) && isset($_SESSION['privilegio'])) {
                             if($_SESSION['privilegio'] == 'admin'){
-                                echo '<li class="nav-item"><a href="proprietario.php" class="nav-link" aria-current="page">Proprietario</a></li>';
-                                echo '<li class="nav-item"><a href="locadora.php" class="nav-link" aria-current="page">Locadora</a></li>';          
+                                echo '<li class="nav-item"><a href="proprietarios.php" class="nav-link" aria-current="page">Proprietarios</a></li>';
+                                echo '<li class="nav-item"><a href="locadoras.php" class="nav-link" aria-current="page">Locadoras</a></li>';          
                             }else{
                                 echo '<li class="nav-item"><a href="filmes.php" class="nav-link" aria-current="page">Filmes</a></li>';
                                 echo '<li class="nav-item"><a href="vhs.php" class="nav-link" aria-current="page">VHS</a></li>';         
