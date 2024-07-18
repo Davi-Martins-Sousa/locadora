@@ -5,28 +5,38 @@ include("cabecalho.php");
 
 $resultadoSQL = getProprietarios(getConection());
 
+echo '<div class="container">
+      <table class="table table-hover table-transparent">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Telefone</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+';
+
 while($registro = mysqli_fetch_assoc($resultadoSQL)){
     $cpf = $registro['CPF'];
     $nome = $registro['nome'];
     $telefone = $registro['telefone'];
 
-    echo '<div class="container">
-                <form class="row g-3 needs-validation" action="" method="post" novalidate>
-                  <div class="col-md-2">
-                    '.$data.'
-                  </div>
-                  <div class="col-md-8">
-                    '.$nome.': '.$conteudo.'
-                  </div>
-                  <div class="col-md-2">
-                    <a class="btn btn-primary" href=comentarios.php?id='.$id.' name="id">Comentários</a>
-                  </div>
-                </form>
-              </div>';
+    echo '
+      <tr>
+        <th scope="row">1</th>
+        <td>'.$nome.'</td>
+        <td>'.$telefone.'</td>
+        <td>@mdo</td>
+      </tr>
+    ';
 }
-
-
-
+  echo '  
+        </tbody>
+      </table>
+    </div>
+  ';
 
 include("rodape.php");
 ?>
