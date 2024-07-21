@@ -4,30 +4,27 @@ include("../BD/conecta.php");
 include("../dao/locadorasDao.php");
 ?>
 
-<div class="container">
-    <form class="row g-3 needs-validation" id="loginForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" novalidate>
-        <div>
-            <div class="col-md-4 mx-auto">
-                <label for="validationCustom01" class="form-label">Nome de Usuário</label>
-                <input type="text" class="form-control" id="validationCustom01" name="username" required>
-                <div class="invalid-feedback">
-                    Por favor, insira seu nome de usuário.
+<div class="container d-flex vh-100">
+    <div class="row justify-content-center align-self-center w-100">
+        <form class="row g-3 needs-validation col-md-6" id="loginForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" novalidate>
+            <div>
+                <div class="form-floating mx-auto">
+                    <input type="email" class="form-control" id="floatingInput1" name="username" required>
+                    <label for="floatingInput1">CNPJ</label>
                 </div>
             </div>
-        </div>
-        <div>
-            <div class="col-md-4  mx-auto">
-                <label for="validationCustom02" class="form-label">Senha</label>
-                <input type="password" class="form-control" id="validationCustom02" name="password" required>
-                <div class="invalid-feedback">
-                    Por favor, insira sua senha.
+            <div>
+                <div class="form-floating mx-auto">
+                    <input type="password" class="form-control" id="floatingInput2" name="password" required>
+                    <label for="floatingInput2">Senha</label>
                 </div>
             </div>
-        </div>
-        <div class="col-12">
-            <input class="btn btn-primary" type="submit" value="Entrar" name="submit" />
-            <div class="col-12">
 
+            <div class="col-12">
+                <input class="btn btn-outline-primary" type="submit" value="Entrar" name="submit" />
+            </div>
+
+            <div class="col-12">
                 <?php
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $username = $_POST["username"];
@@ -61,8 +58,9 @@ include("../dao/locadorasDao.php");
                     }
                 }
                 ?>
-
             </div>
-    </form>
+        </form>
+    </div>
 </div>
+
 <?php include("Rodape.php"); ?>

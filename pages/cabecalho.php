@@ -52,11 +52,11 @@
         }
 
         .table-transparent thead th {
-            background-color: rgba(0, 0, 0, 0.75) !important; /* Cabeçalho escuro */
+            background-color: rgba(255, 255, 255, 0) !important; /* Cabeçalho totalmente transparente */
         }
 
         .table-transparent tbody tr {
-            background-color: rgba(255, 255, 255, 0.2) !important; /* Linhas do corpo com leve transparência */
+            background-color: rgba(255, 255, 255, 0) !important; /* Linhas do corpo com transparência */
         }
 
         .table-transparent tbody td, .table-transparent tbody th {
