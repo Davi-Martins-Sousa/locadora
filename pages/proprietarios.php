@@ -67,6 +67,7 @@ echo '
             <input class="btn btn-outline-primary" type="submit" value="Salvar" name="submit" />
           </div>
         </form>
+        <div id="debug-info" class="mt-3"></div> <!-- Div para mensagens de depuração -->
       </div>
     </div>
   </div>
@@ -77,24 +78,31 @@ include("rodape.php");
 
 // Processar o formulário de registro
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
+
     $cpf = $_POST["cpf"];
     $nome = $_POST["nome"];
     $telefone = $_POST["telefone"];
-    
+
     // Função para adicionar o novo proprietário ao banco de dados
     $resultado = addProprietario($conexao, $cpf, $nome, $telefone);
-    if ($resultado) {
-      echo '<script>
-              alert("Proprietário adicionado com sucesso!");
-              console.log("Proprietário adicionado com sucesso!");
-            </script>';
+    if ($resultado === true) {
+        echo '<script>
+                alert("Proprietário adicionado com sucesso!");
+                document.getElementById("debug-info").innerText += "\\nProprietário adicionado com sucesso!";
+                window.location.href="'.$_SERVER["PHP_SELF"].'";
+              </script>';
+    } elseif ($resultado === "CPF já existe") {
+        echo '<script>
+                alert("Erro: CPF já existe.");
+                document.getElementById("debug-info").innerText += "\\nErro: CPF já existe.";
+              </script>';
     } else {
-      // Exibe mensagem de erro do MySQL no console
-      $error_message = mysqli_error($conexao);
-      echo '<script>
-              alert("Erro ao adicionar proprietário: ' . $error_message . '");
-              console.log("Erro ao adicionar proprietário: ' . $error_message . '");
-            </script>';
+        // Exibe mensagem de erro do MySQL no console
+        $error_message = mysqli_error($conexao);
+        echo '<script>
+                alert("Erro ao adicionar proprietário: ' . $error_message . '");
+                document.getElementById("debug-info").innerText += "\\nErro ao adicionar proprietário: ' . $error_message . '";
+              </script>';
     }
     mysqli_close($conexao);
 }

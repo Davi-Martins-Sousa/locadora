@@ -1,23 +1,21 @@
-<?php 
+<?php
 function getProprietarios($connection){
     $query = "SELECT * FROM proprietario";
-    $result = mysqli_query($connection, $query);
-
-    if (!$result) {
-        die("Erro ao buscar proprietários: " . mysqli_error($connection));
-    }
-
-    return $result;
+    return mysqli_query($connection, $query);
 }
 
 function addProprietario($connection, $CPF, $nome, $telefone) {
-    $query = "INSERT INTO proprietario (CPF, nome, telefone) VALUES ('".$CPF."', '".$nome."', '".$telefone."')";
-    $result = mysqli_query($connection, $query);
-
-    if (!$result) {
-        die("Erro ao adicionar proprietário: " . mysqli_error($connection));
+    // Verificar se o CPF já existe
+    $checkQuery = "SELECT * FROM proprietario WHERE CPF = '".$CPF."'";
+    $checkResult = mysqli_query($connection, $checkQuery);
+    
+    if (mysqli_num_rows($checkResult) > 0) {
+        // CPF já existe
+        return "CPF já existe";
+    } else {
+        // CPF não existe, pode inserir
+        $query = "INSERT INTO proprietario (CPF, nome, telefone) VALUES ('".$CPF."', '".$nome."', '".$telefone."')";
+        return mysqli_query($connection, $query);
     }
-
-    return $result;
 }
 ?>
