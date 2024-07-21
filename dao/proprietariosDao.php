@@ -5,17 +5,27 @@ function getProprietarios($connection){
 }
 
 function addProprietario($connection, $CPF, $nome, $telefone) {
-    // Verificar se o CPF já existe
     $checkQuery = "SELECT * FROM proprietario WHERE CPF = '".$CPF."'";
     $checkResult = mysqli_query($connection, $checkQuery);
     
     if (mysqli_num_rows($checkResult) > 0) {
-        // CPF já existe
         return "CPF já existe";
     } else {
-        // CPF não existe, pode inserir
         $query = "INSERT INTO proprietario (CPF, nome, telefone) VALUES ('".$CPF."', '".$nome."', '".$telefone."')";
         return mysqli_query($connection, $query);
+    }
+}
+
+function deleteProprietario($connection, $CPF) {
+    // Verificar se o proprietário está associado a alguma locadora
+    $checkQuery = "SELECT * FROM possui WHERE CPF_proprietario = '".$CPF."'";
+    $checkResult = mysqli_query($connection, $checkQuery);
+    
+    if (mysqli_num_rows($checkResult) > 0) {
+        return "Proprietário está associado a uma locadora";
+    } else {
+        $query = "DELETE FROM proprietario WHERE CPF = '".$CPF."'";
+        return mysqli_query($connection, $query) ? true : mysqli_error($connection);
     }
 }
 ?>

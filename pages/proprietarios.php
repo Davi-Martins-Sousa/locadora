@@ -13,6 +13,7 @@ echo '<div class="container">
             <th scope="col"><button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#addProprietarioModal">+</button></th>
             <th scope="col">Proprietario</th>
             <th scope="col">Telefone</th>
+            <th scope="col">Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -31,6 +32,12 @@ while($registro = mysqli_fetch_assoc($resultadoSQL)){
         <th scope="row">'.$id.'</th>
         <td>'.$nome.'</td>
         <td>'.$telefone.'</td>
+        <td>
+          <form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post" style="display:inline;">
+            <input type="hidden" name="cpf_to_delete" value="'.$cpf.'">
+            <button type="submit" name="delete" class="btn btn-outline-danger btn-sm">Deletar</button>
+          </form>
+        </td>
       </tr>
     ';
 }
@@ -77,32 +84,36 @@ echo '
 include("rodape.php");
 
 // Processar o formulário de registro
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
-
-    $cpf = $_POST["cpf"];
-    $nome = $_POST["nome"];
-    $telefone = $_POST["telefone"];
-
-    // Função para adicionar o novo proprietário ao banco de dados
-    $resultado = addProprietario($conexao, $cpf, $nome, $telefone);
-    if ($resultado === true) {
-        echo '<script>
-                alert("Proprietário adicionado com sucesso!");
-                document.getElementById("debug-info").innerText += "\\nProprietário adicionado com sucesso!";
-                window.location.href="'.$_SERVER["PHP_SELF"].'";
-              </script>';
-    } elseif ($resultado === "CPF já existe") {
-        echo '<script>
-                alert("Erro: CPF já existe.");
-                document.getElementById("debug-info").innerText += "\\nErro: CPF já existe.";
-              </script>';
-    } else {
-        // Exibe mensagem de erro do MySQL no console
-        $error_message = mysqli_error($conexao);
-        echo '<script>
-                alert("Erro ao adicionar proprietário: ' . $error_message . '");
-                document.getElementById("debug-info").innerText += "\\nErro ao adicionar proprietário: ' . $error_message . '";
-              </script>';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["submit"])) {
+        $cpf = $_POST["cpf"];
+        $nome = $_POST["nome"];
+        $telefone = $_POST["telefone"];
+        
+        $resultado = addProprietario($conexao, $cpf, $nome, $telefone);
+        if ($resultado === true) {
+            echo '<script>
+                    alert("Proprietário adicionado com sucesso!");
+                    window.location.href="'.$_SERVER["PHP_SELF"].'";
+                  </script>';
+        } elseif ($resultado === "CPF já existe") {
+            echo '<script>alert("Erro: CPF já existe.");</script>';
+        } else {
+            $error_message = mysqli_error($conexao);
+            echo '<script>alert("Erro ao adicionar proprietário: ' . $error_message . '");</script>';
+        }
+    } elseif (isset($_POST["delete"])) {
+        $cpf_to_delete = $_POST["cpf_to_delete"];
+        
+        $deleteResult = deleteProprietario($conexao, $cpf_to_delete);
+        if ($deleteResult === true) {
+            echo '<script>
+                    alert("Proprietário deletado com sucesso!");
+                    window.location.href="'.$_SERVER["PHP_SELF"].'";
+                  </script>';
+        } else {
+            echo '<script>alert("Erro ao deletar proprietário: ' . $deleteResult . '");</script>';
+        }
     }
     mysqli_close($conexao);
 }
