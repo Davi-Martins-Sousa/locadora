@@ -62,6 +62,39 @@
         .table-transparent tbody td, .table-transparent tbody th {
             background-color: rgba(255, 255, 255, 0) !important; /* Células do corpo transparentes */
         }
+
+        /* Define a transparência do Accordion */
+        .accordion-item {
+            background-color: transparent;
+            border: none;
+        }
+
+        .accordion-button {
+            background-color: transparent;
+            color: #000; /* Ajuste a cor do texto conforme necessário */
+            border: 1px solid #dee2e6; /* Ajuste a borda conforme necessário */
+        }
+
+        .accordion-button:not(.collapsed) {
+            box-shadow: none;
+        }
+
+        /* Define a transparência da tabela */
+        .table-transparent {
+            background-color: transparent;
+            border: none;
+        }
+
+        .table-transparent thead th {
+            background-color: transparent;
+            color: #000; /* Ajuste a cor do texto conforme necessário */
+        }
+
+        .table-transparent tbody td {
+            background-color: transparent;
+            color: #000; /* Ajuste a cor do texto conforme necessário */
+        }
+
     </style>
 </head>
 <body>
